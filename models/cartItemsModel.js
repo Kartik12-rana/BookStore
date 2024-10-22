@@ -3,6 +3,8 @@ const sequelize = require('../config/dbConfig');
 const Cart = require('./cartModel');
 const Book = require('./bookModel');
 
+console.log("cart", Cart)
+
 const CartItem = sequelize.define('CartItem', {
   id: {
     type: DataTypes.INTEGER,
@@ -17,7 +19,7 @@ const CartItem = sequelize.define('CartItem', {
   timestamps: false
 });
 
-CartItem.belongsTo(Cart, { foreignKey: 'cartId' });
+CartItem.belongsTo(Cart, { foreignKey: 'id' });
 CartItem.belongsTo(Book, { foreignKey: 'bookId' });
 
 module.exports = CartItem;

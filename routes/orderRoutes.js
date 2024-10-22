@@ -4,12 +4,12 @@ const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
 // POST /api/orders - Place an order from the cart
-router.post('/', authMiddleware, placeOrder);
+router.post('/createOrder', authMiddleware, placeOrder);
 
 // GET /api/orders - View order history for the authenticated user
 router.get('/', authMiddleware, getOrderHistory);
 
 // GET /api/orders/:id - Get order details by ID
-router.get('/:id', authMiddleware, getOrderDetails);
+router.get('/removeCart/:id', authMiddleware, getOrderDetails);
 
 module.exports = router;

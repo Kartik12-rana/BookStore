@@ -18,10 +18,10 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
-app.use(authRoutes);
-app.use(bookRoutes);
-app.use(cartRoutes)
-app.use(orderRoutes)
+app.use('/auth',authRoutes);
+app.use('/book',bookRoutes);
+app.use('/cart',cartRoutes)
+app.use('/order',orderRoutes)
 
 // Sync database
 sequelize.sync()

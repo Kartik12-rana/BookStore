@@ -6,6 +6,7 @@ const CartItem = require('../models/cartItemsModel');
 // Place an order from the cart
 exports.placeOrder = async (req, res) => {
   const userId = req.user;
+  console.log(userId)
 
   try {
     const cart = await Cart.findOne({ where: { userId }, include: [CartItem] });
@@ -21,32 +22,72 @@ exports.placeOrder = async (req, res) => {
 
     res.json(order);
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    console.log(err)
+    return res.status(500).json({
+      status: 500,
+      data: {},
+      error: "Something Went Wrong",
+      err,
+    });
   }
 };
 
 // Get order history for the authenticated user
 exports.getOrderHistory = async (req, res) => {
-  const userId = req.user;
-
+  
   try {
+    const userId = req.user;
     const orders = await Order.findAll({ where: { userId }, include: [OrderItem] });
-    res.json(orders);
+    if (orders.length === 0) {
+      return res.status(400).json({
+        status: 400,
+        data: {},
+        error: "orders history not found",
+      });
+    }
+    else {
+      return res.status(200).json({
+        status: 200,
+        data: orders,
+        message: "Order History  list found Suucessfully",
+      });
+    }
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    return res.status(500).json({
+      status: 500,
+      data: {},
+      error: "Something Went Wrong",
+      err,
+    });
   }
 };
 
 // Get order details by ID
 exports.getOrderDetails = async (req, res) => {
-  const { id } = req.params;
-
+  
   try {
+    const  id = req.params.id;
     const order = await Order.findByPk(id, { include: [OrderItem] });
-    if (!order) return res.status(404).json({ msg: 'Order not found' });
-
-    res.json(order);
+    if (!order) {
+      return res.status(400).json({
+        status: 400,
+        data: {},
+        error: "Order not found",
+      });
+    }
+    else {
+      return res.status(200).json({
+        status: 200,
+        data: order,
+        message: "Order found Suucessfully",
+      });
+    }
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    return res.status(500).json({
+      status: 500,
+      data: {},
+      error: "Something Went Wrong",
+      err,
+    });
   }
 };
