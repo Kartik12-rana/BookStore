@@ -1,0 +1,49 @@
+CREATE TABLE Users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE Books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    description TEXT,
+);
+
+CREATE TABLE Cart (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT,
+    totalPrice DECIMAL(10, 2) DEFAULT 0.00,
+    FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Cart_Items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cartId INT,
+    bookId INT,
+    quantity INT DEFAULT 1,
+    FOREIGN KEY (cartId) REFERENCES Cart(id) ON DELETE CASCADE,
+    FOREIGN KEY (bookId) REFERENCES Books(id)
+);
+
+
+CREATE TABLE Orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT,
+    totalPrice DECIMAL(10, 2) NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Order_Items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    orderId INT,
+    bookId INT,
+    quantity INT DEFAULT 1,
+    FOREIGN KEY (orderId) REFERENCES Orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (bookId) REFERENCES Books(id)
+);

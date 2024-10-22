@@ -19,7 +19,7 @@ const CartItem = sequelize.define('CartItem', {
   timestamps: false
 });
 
-CartItem.belongsTo(Cart, { foreignKey: 'id' });
+CartItem.belongsTo(Cart, { foreignKey: 'cartId' });
 CartItem.belongsTo(Book, { foreignKey: 'bookId' });
 
 module.exports = CartItem;
